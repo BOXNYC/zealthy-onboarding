@@ -1,6 +1,6 @@
 'use client'
 
-import React, { createElement, useCallback, useRef, useState } from "react";
+import React, { createElement, useCallback, useEffect, useState } from "react";
 import { InputSteps } from "@/types/config";
 import * as Inputs from "@/components/onboarding/Inputs";
 
@@ -8,19 +8,26 @@ type WizzardConfigProps = {
     sections: InputSteps;
 }
 export default function Wizzard({sections}: WizzardConfigProps) {
-    const savedCurrentStep = useRef(localStorage.getItem('currentStep'));
-    const [currentStep, setCurrentStep] = useState(typeof savedCurrentStep.current === 'string' ? parseInt(savedCurrentStep.current) : 0);
+    const [currentStep, setCurrentStep] = useState<number>(0);
+    
+    useEffect(() => {
+        const storedStep: null | string = window.localStorage.getItem('currentStep')
+        setCurrentStep( typeof storedStep === 'string' ? parseInt(storedStep) : 0 );
+    }, [currentStep]);
+
     const onSubmit = useCallback((formData: FormData) => {
+        console.log(formData)
         const newStep = currentStep + 1;
         setCurrentStep(newStep);
-        localStorage.setItem('currentStep', newStep.toString());
+        window.localStorage.setItem('currentStep', newStep.toString());
     }, [currentStep]);
+
     const components = sections[Object.keys(sections)[currentStep]];
-    const w = 'w-full scale-['+(1 / Object.keys(sections).length)+' 1]';
+    const w = ((currentStep + 1) * 100) / Object.keys(sections).length;
     return (<>
         <div className="flex w-full relative border rounded-full mb-8">
             <div className={`block absolute h-full bg-[#666] rounded-full`} style={{
-                width: `${((currentStep+1)*100) / Object.keys(sections).length}%`,
+                width: `${w}%`,
                 transition: 'width 0.5s ease-in-out'
             }}></div>
             {Object.keys(sections).map((step, index) => (<section

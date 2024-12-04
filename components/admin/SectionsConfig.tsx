@@ -119,13 +119,13 @@ const DraggableItem: React.FC<{ id: string; children: React.ReactNode }> = ({ id
 
 interface ItemProps {
     id: string;
-    [key: string]: any;
 }
-export const Item = forwardRef<HTMLDivElement, ItemProps>(({ id, ...props }, ref) => {
+const Item = forwardRef<HTMLDivElement, ItemProps>(({ id, ...props }, ref) => {
     return (
-      <div {...props} style={{...itemStyles, ...draggingItemStyles}} ref={ref}>{id}</div>
+        <div {...props} style={{...itemStyles, ...draggingItemStyles}} ref={ref}>{id}</div>
     )
 });
+Item.displayName = 'Item';
 
 const DroppableContainer: React.FC<{
     id: string;

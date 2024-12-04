@@ -1,7 +1,7 @@
 'use server'
 
-import { defaults } from "@/settings/config"
+import { defaults, Settings } from "@/settings/config"
 
-export async function getConfig(): Promise<any> {
+export async function getConfig(): Promise<Settings> {
     return defaults
 }

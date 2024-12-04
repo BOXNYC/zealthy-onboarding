@@ -8,6 +8,7 @@ export function EmailPasswordInput() {
         </div>
     );
 }
+EmailPasswordInput.displayName = 'EmailPasswordInput';
 
 export function AboutInput() {
     return (
@@ -16,6 +17,7 @@ export function AboutInput() {
         </div>
     );
 }
+AboutInput.displayName = 'AboutInput';
 
 export function BirthdayInput() {
     return (
@@ -24,6 +26,7 @@ export function BirthdayInput() {
         </div>
     );
 }
+BirthdayInput.displayName = 'BirthdayInput';
 
 export function AddressInput() {
     return (
@@ -35,3 +38,4 @@ export function AddressInput() {
         </div>
     );
 }
+AddressInput.displayName = 'AddressInput';

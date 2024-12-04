@@ -14,3 +14,5 @@ export const defaults = {
         },
     },
 };
+
+export type Settings = typeof defaults;
