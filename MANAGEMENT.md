@@ -1,6 +1,6 @@
 # Managing Team
 
-###At Zealthy, the engineering leadership expectations:
+### At Zealthy, the engineering leadership expectations:
 - Leading daily standups
 - Code review & pushing to production
 - Key technical architecture decision-making
