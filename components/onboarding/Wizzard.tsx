@@ -165,10 +165,10 @@ export default function Wizzard({sections}: WizzardConfigProps) {
             <User values={values} />
         </div>}
 
-        {currentStep > 0 && <div className="mt-8">
+        {!!complete && <div className="mt-8">
             <button onClick={reset} className="text-nowrap border inline-block py-2 px-4 bg-[#00531b] rounded-2xl text-white">Onboard another</button>
         </div>}
-        
+
     </>);
 }
 
