@@ -8,7 +8,7 @@ export default async function Admin() {
     const config = await getConfig();
     return (<>
         <PageTitle title="Admin" />
-        <div className="">
+        <div>
             <h3 className="text-lg font-semibold">Input steps</h3>
             <SectionsConfig configDefault={config} />
         </div>

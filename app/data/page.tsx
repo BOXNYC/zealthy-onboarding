@@ -1,13 +1,21 @@
+'use client'
+
 import PageTitle from "@/components/UX/PageTitle";
 import { getUsers } from "../actions/api";
 import { User } from "@/types/models";
+import { useEffect, useState } from "react";
 
-export const dynamic = 'force-dynamic';
+export default function Data() {
+    const [users, setUsers] = useState<User[] | undefined>(undefined);
 
-export default async function Data() {
-    const users = await getUsers();
+    useEffect(() => {
+        getUsers().then((u: User[]) => setUsers(u)).catch(console.error);
+    }, []);
+
+    if (users === undefined) return <div className="text-center text-2xl w-full text-[#666]">One momment...</div>;
+    
     return (
-        <div className="flex flex-col items-center justify-center h-screen">
+        <div>
             <PageTitle title="Data" subtitle="All users" />
             <table className="table-auto mt-8">
                 <thead>
