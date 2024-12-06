@@ -10,25 +10,33 @@ The Postgres DB has two tables: `config` and `users`. The `config` table has a s
 
 ### Stack
  • Next.js
+
  • Supabase + Postgres + Prisma
+
  • Vercel + Serverless Functions
 
-### src Structure
+
+### Src Structure
 `app/actions/` - Server-side Serverless functions
+
 `app/ app/admin/ app/data/` - Router Page Components
+
 `components/` - Client Components
+
 `settings/` - Defaults
+
 `types/` - Reusable Typescript Types
+
 
 ### Router
 
 `/` - _Home / Onboarding page_
-  - *Server-side Component* - The admin config data is loaded server-side as it's needed for the client component rendering
+  - *Server-side Component* - The admin config data is provided via server-side component (SSR) as it's needed for the client component rendering
   - *Client-side Component* - This Wizzard.tsx component renders components dynamically using `React.createElement()` based on the admin config data loaded server-side.
 
 `/admin` - _Administrative page_
-  - *Server-side Component* - The admin config data is loaded server-side as it's needed for the client component rendering
-  - *Client-side Component* - This Wizzard.tsx component renders components dynamically using `React.createElement()` based on the admin config data loaded server-side.
+  - *Server-side Component* - The admin config data is provided via server-side component (SSR) as it's needed for the client component rendering
+  - *Client-side Component* - Using the DnD modules for dragging and dropping input components, form submission appends new configs to DB. The form's submit button is not clickable if any page is void of components.
 
 `/data` - _Users Table_
   - *Client-side Component* - Requests all users from the DB using a server-action, saving the result to state.
