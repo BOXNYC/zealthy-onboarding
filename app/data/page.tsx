@@ -2,6 +2,8 @@ import PageTitle from "@/components/UX/PageTitle";
 import { getUsers } from "../actions/api";
 import { User } from "@/types/models";
 
+export const dynamic = 'force-dynamic';
+
 export default async function Data() {
     const users = await getUsers();
     return (
