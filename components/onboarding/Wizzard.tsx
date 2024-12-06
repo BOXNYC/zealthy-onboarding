@@ -169,8 +169,6 @@ export default function Wizzard({sections}: WizzardConfigProps) {
             <button onClick={reset} className="text-nowrap border inline-block py-2 px-4 bg-[#00531b] rounded-2xl text-white">Onboard another</button>
         </div>}
         
-        {/* <pre>{typeof userId}</pre>
-        <pre>{JSON.stringify(values, null, 2)}</pre> */}
     </>);
 }
 

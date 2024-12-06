@@ -33,6 +33,17 @@ const containerStyle: React.CSSProperties = {
     minWidth: '100%',
 };
 
+function checkSavable(containers: InputSteps) {
+    let savable = true;
+    for (const key in containers) {
+        if (containers[key].length === 0) {
+            savable = false;
+            break;
+        }
+    }
+    return savable;
+}
+
 type SectionsConfigProps = {
     configDefault: Settings;
 }
@@ -81,6 +92,8 @@ export default function SectionsConfig({ configDefault }: SectionsConfigProps) {
         setActiveId(active.id.toString());
     }, [setActiveId]);
 
+
+    const savable = checkSavable(containers);
     return (<>
         <DndContext onDragEnd={handleDragEnd} onDragStart={handleDragStart}>
             {Object.entries(containers).map(([id, items]) => (
@@ -92,9 +105,8 @@ export default function SectionsConfig({ configDefault }: SectionsConfigProps) {
         </DndContext>
         <form action={onSave}>
             <input type="hidden" name="sections" value={JSON.stringify(containers)} />
-            <button type="submit">Save</button>
+            <button type="submit" disabled={!savable} className="border border-[#ddd] px-8 py-4">Save</button>
         </form>
-        <pre>{JSON.stringify(containers, null, 2)}</pre>
     </>);
 }
   
