@@ -9,8 +9,8 @@ import {
     DragEndEvent,
     DragStartEvent,
 } from '@dnd-kit/core';
-import { InputSteps } from "@/types/config";
-import { Inputs } from '@/settings/config';
+import { InputComponenets, InputSteps, Inputs, Settings } from '@/settings/config';
+import { saveConfig } from '@/app/actions/api';
 
 const itemStyles: React.CSSProperties = {
     padding: '8px',
@@ -34,22 +34,27 @@ const containerStyle: React.CSSProperties = {
 };
 
 type SectionsConfigProps = {
-    sectionsDefault: InputSteps;
+    configDefault: Settings;
 }
-export default function SectionsConfig({ sectionsDefault }: SectionsConfigProps) {
-    const [containers, setContainers] = useState<InputSteps>(sectionsDefault);
+export default function SectionsConfig({ configDefault }: SectionsConfigProps) {
+    const [containers, setContainers] = useState<InputSteps>(configDefault.input.steps);
     const [activeId, setActiveId] = useState<string | null>(null);
 
-    const onSave = useCallback((data: FormData) => {
-        console.log('Save', data.get('sections'));
-    }, []);
+    const onSave = useCallback(async () => {
+        const success = await saveConfig(containers);
+        if (success) {
+            alert('Saved');
+        } else {
+            alert('Error saving');
+        }
+    }, [containers]);
     
     const handleDragEnd = useCallback((event: DragEndEvent) => {
         const { active, over } = event;
         setActiveId(null);
         if (!over) return;
         const sourceContainerId = Object.keys(containers).find((key) =>
-            containers[key].includes(active.id.toString())
+            containers[key].includes(active.id.toString() as InputComponenets)
         );
         const targetContainerId = over.id;
         if (
@@ -57,11 +62,11 @@ export default function SectionsConfig({ sectionsDefault }: SectionsConfigProps)
             targetContainerId &&
             sourceContainerId !== targetContainerId
         ) {
-            setContainers((prev) => {
+            setContainers((prev: InputSteps) => {
                 const sourceItems = prev[sourceContainerId].filter(
                     (item) => item !== active.id
                 );
-                const targetItems = [...prev[targetContainerId], active.id.toString()];
+                const targetItems = [...prev[targetContainerId], active.id.toString() as InputComponenets];
                 return {
                     ...prev,
                     [sourceContainerId]: sourceItems,
@@ -108,21 +113,19 @@ const DraggableItem: React.FC<{ id: string; children: React.ReactNode }> = ({ id
         },
     };
 
-    attributes['aria-describedby'] = attributes['aria-describedby'] || '';
-
     return (
-      <div ref={setNodeRef} style={style} {...listeners} {...attributes}>
+      <div ref={setNodeRef} style={style} {...listeners} {...attributes} suppressHydrationWarning>
         {children}
       </div>
     );
 };
 
-interface ItemProps {
+type ItemProps = {
     id: string;
 }
-const Item = forwardRef<HTMLDivElement, ItemProps>(({ id, ...props }, ref) => {
+const Item = forwardRef<HTMLDivElement, ItemProps & React.HTMLAttributes<HTMLDivElement>>(({ id, ...props }, ref) => {
     return (
-        <div {...props} style={{...itemStyles, ...draggingItemStyles}} ref={ref}>{id}</div>
+        <div {...props} style={{...itemStyles, ...draggingItemStyles}} ref={ref} suppressHydrationWarning>{id}</div>
     )
 });
 Item.displayName = 'Item';
